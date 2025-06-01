@@ -1562,6 +1562,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "attachment"
+        },
+        {
+          "type": "SYMBOL",
           "name": "pipe_table"
         }
       ]
@@ -3604,6 +3608,38 @@
               "name": "_eof"
             }
           ]
+        }
+      ]
+    },
+    "attachment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "{attachment:"
+          },
+          "named": true,
+          "value": "attachment_start_mark"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[^}]+"
+          },
+          "named": true,
+          "value": "attachment_path"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "}"
+          },
+          "named": true,
+          "value": "attachment_end_mark"
         }
       ]
     },

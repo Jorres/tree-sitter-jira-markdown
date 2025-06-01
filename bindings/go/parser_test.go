@@ -107,30 +107,19 @@ func TestParseSimpleAttachment(t *testing.T) {
 				Kind: "section",
 				Children: []*TreeNode{
 					{
-						Kind: "paragraph",
+						Kind: "attachment",
 						Children: []*TreeNode{
 							{
-								Kind: "inline",
-								Text: "{attachment:file.txt}",
-								Children: []*TreeNode{
-									{
-										Kind: "attachment",
-										Children: []*TreeNode{
-											{
-												Kind: "attachment_start_mark",
-												Text: "{attachment:",
-											},
-											{
-												Kind: "attachment_path",
-												Text: "file.txt",
-											},
-											{
-												Kind: "attachment_end_mark",
-												Text: "}",
-											},
-										},
-									},
-								},
+								Kind: "attachment_start_mark",
+								Text: "{attachment:",
+							},
+							{
+								Kind: "attachment_path",
+								Text: "file.txt",
+							},
+							{
+								Kind: "attachment_end_mark",
+								Text: "}",
 							},
 						},
 					},
@@ -155,7 +144,8 @@ func TestParseComplexDocument(t *testing.T) {
 
 1. Item with ` + "`" + `code` + "`" + `span
 2. Item with @user@example.com mention
-3. Item with {attachment:document.pdf} attachment
+
+{attachment:file.txt}
 
 ` + "```" + `
 code block content
@@ -225,36 +215,28 @@ code block content
 													{Kind: "people_mention", Text: "@user@example.com"},
 												},
 											},
-										},
-									},
-								},
-							},
-							// Item 3 with attachment
-							{
-								Kind: "list_item",
-								Children: []*TreeNode{
-									{Kind: "list_marker_dot", Text: "3."},
-									{
-										Kind: "paragraph",
-										Children: []*TreeNode{
-											{
-												Kind: "inline",
-												Text: "Item with {attachment:document.pdf} attachment",
-												Children: []*TreeNode{
-													{
-														Kind: "attachment",
-														Children: []*TreeNode{
-															{Kind: "attachment_start_mark", Text: "{attachment:"},
-															{Kind: "attachment_path", Text: "document.pdf"},
-															{Kind: "attachment_end_mark", Text: "}"},
-														},
-													},
-												},
-											},
 											{Kind: "block_continuation"},
 										},
 									},
 								},
+							},
+						},
+					},
+
+					{
+						Kind: "attachment",
+						Children: []*TreeNode{
+							{
+								Kind: "attachment_start_mark",
+								Text: "{attachment:",
+							},
+							{
+								Kind: "attachment_path",
+								Text: "file.txt",
+							},
+							{
+								Kind: "attachment_end_mark",
+								Text: "}",
 							},
 						},
 					},

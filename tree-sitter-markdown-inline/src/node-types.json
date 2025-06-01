@@ -1,28 +1,5 @@
 [
   {
-    "type": "attachment",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "attachment_end_mark",
-          "named": true
-        },
-        {
-          "type": "attachment_path",
-          "named": true
-        },
-        {
-          "type": "attachment_start_mark",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "backslash_escape",
     "named": true,
     "fields": {}
@@ -65,10 +42,6 @@
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "attachment",
-          "named": true
-        },
         {
           "type": "backslash_escape",
           "named": true
@@ -213,10 +186,6 @@
       "required": false,
       "types": [
         {
-          "type": "attachment",
-          "named": true
-        },
-        {
           "type": "backslash_escape",
           "named": true
         },
@@ -300,10 +269,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "attachment",
-          "named": true
-        },
         {
           "type": "backslash_escape",
           "named": true
@@ -476,10 +441,6 @@
       "required": false,
       "types": [
         {
-          "type": "attachment",
-          "named": true
-        },
-        {
           "type": "backslash_escape",
           "named": true
         },
@@ -585,10 +546,6 @@
       "required": true,
       "types": [
         {
-          "type": "attachment",
-          "named": true
-        },
-        {
           "type": "backslash_escape",
           "named": true
         },
@@ -675,10 +632,6 @@
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "attachment",
-          "named": true
-        },
         {
           "type": "backslash_escape",
           "named": true
@@ -893,18 +846,6 @@
   {
     "type": "`",
     "named": false
-  },
-  {
-    "type": "attachment_end_mark",
-    "named": true
-  },
-  {
-    "type": "attachment_path",
-    "named": true
-  },
-  {
-    "type": "attachment_start_mark",
-    "named": true
   },
   {
     "type": "code_span_delimiter",

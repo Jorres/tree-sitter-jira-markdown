@@ -2407,38 +2407,6 @@
       "type": "PATTERN",
       "value": "@[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*[^@\\s]*"
     },
-    "attachment": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "{attachment:"
-          },
-          "named": true,
-          "value": "attachment_start_mark"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "[^}]+"
-          },
-          "named": true,
-          "value": "attachment_path"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "}"
-          },
-          "named": true,
-          "value": "attachment_end_mark"
-        }
-      ]
-    },
     "_html_tag": {
       "type": "CHOICE",
       "members": [
@@ -4594,10 +4562,6 @@
             {
               "type": "SYMBOL",
               "name": "people_mention"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "attachment"
             },
             {
               "type": "SYMBOL",

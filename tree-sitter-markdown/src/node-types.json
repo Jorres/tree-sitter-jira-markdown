@@ -1,5 +1,28 @@
 [
   {
+    "type": "attachment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attachment_end_mark",
+          "named": true
+        },
+        {
+          "type": "attachment_path",
+          "named": true
+        },
+        {
+          "type": "attachment_start_mark",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "atx_heading",
     "named": true,
     "fields": {
@@ -62,6 +85,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "attachment",
+          "named": true
+        },
         {
           "type": "block_continuation",
           "named": true
@@ -406,6 +433,10 @@
       "required": true,
       "types": [
         {
+          "type": "attachment",
+          "named": true
+        },
+        {
           "type": "block_continuation",
           "named": true
         },
@@ -632,6 +663,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "attachment",
+          "named": true
+        },
         {
           "type": "atx_heading",
           "named": true
@@ -869,6 +904,18 @@
   {
     "type": "`",
     "named": false
+  },
+  {
+    "type": "attachment_end_mark",
+    "named": true
+  },
+  {
+    "type": "attachment_path",
+    "named": true
+  },
+  {
+    "type": "attachment_start_mark",
+    "named": true
   },
   {
     "type": "atx_h1_marker",

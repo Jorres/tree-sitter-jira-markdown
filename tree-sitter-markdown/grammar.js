@@ -45,6 +45,7 @@ module.exports = grammar({
             $._blank_line,
             $.html_block,
             $.link_reference_definition,
+            $.attachment,
             common.EXTENSION_PIPE_TABLE ? $.pipe_table : choice(),
         ),
         section: $ => choice($._section1, $._section2, $._section3, $._section4, $._section5, $._section6),
@@ -284,6 +285,13 @@ module.exports = grammar({
         //
         // https://github.github.com/gfm/#blank-lines
         _blank_line: $ => seq($._blank_line_start, choice($._newline, $._eof)),
+
+        // Attachment block for handling {attachment:path} syntax
+        attachment: $ => seq(
+            alias('{attachment:', $.attachment_start_mark),
+            alias(/[^}]+/, $.attachment_path),
+            alias('}', $.attachment_end_mark)
+        ),
 
 
         // CONTAINER BLOCKS
