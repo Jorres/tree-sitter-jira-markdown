@@ -18,13 +18,13 @@
 #define STATE_COUNT 1176
 #define LARGE_STATE_COUNT 166
 #define SYMBOL_COUNT 153
-#define ALIAS_COUNT 4
+#define ALIAS_COUNT 5
 #define TOKEN_COUNT 70
 #define EXTERNAL_TOKEN_COUNT 15
 #define FIELD_COUNT 0
 #define MAX_ALIAS_SEQUENCE_LENGTH 8
 #define MAX_RESERVED_WORD_SET_SIZE 0
-#define PRODUCTION_ID_COUNT 6
+#define PRODUCTION_ID_COUNT 7
 #define SUPERTYPE_COUNT 0
 
 enum ts_symbol_identifiers {
@@ -180,10 +180,11 @@ enum ts_symbol_identifiers {
   aux_sym__processing_instruction_repeat1 = 150,
   aux_sym__declaration_repeat1 = 151,
   aux_sym__inline_base_repeat1 = 152,
-  alias_sym_emphasis = 153,
-  alias_sym_html_tag = 154,
-  alias_sym_image_description = 155,
-  alias_sym_link_text = 156,
+  alias_sym_attachment_end_mark = 153,
+  alias_sym_emphasis = 154,
+  alias_sym_html_tag = 155,
+  alias_sym_image_description = 156,
+  alias_sym_link_text = 157,
 };
 
 static const char * const ts_symbol_names[] = {
@@ -227,7 +228,7 @@ static const char * const ts_symbol_names[] = {
   [sym_uri_autolink] = "uri_autolink",
   [sym_email_autolink] = "email_autolink",
   [sym_people_mention] = "people_mention",
-  [anon_sym_LBRACEattachment_COLON] = "{attachment:",
+  [anon_sym_LBRACEattachment_COLON] = "attachment_start_mark",
   [aux_sym_attachment_token1] = "attachment_path",
   [sym__attribute_name] = "_attribute_name",
   [aux_sym__attribute_value_token1] = "_attribute_value_token1",
@@ -340,6 +341,7 @@ static const char * const ts_symbol_names[] = {
   [aux_sym__processing_instruction_repeat1] = "_processing_instruction_repeat1",
   [aux_sym__declaration_repeat1] = "_declaration_repeat1",
   [aux_sym__inline_base_repeat1] = "_inline_base_repeat1",
+  [alias_sym_attachment_end_mark] = "attachment_end_mark",
   [alias_sym_emphasis] = "emphasis",
   [alias_sym_html_tag] = "html_tag",
   [alias_sym_image_description] = "image_description",
@@ -500,6 +502,7 @@ static const TSSymbol ts_symbol_map[] = {
   [aux_sym__processing_instruction_repeat1] = aux_sym__processing_instruction_repeat1,
   [aux_sym__declaration_repeat1] = aux_sym__declaration_repeat1,
   [aux_sym__inline_base_repeat1] = aux_sym__inline_base_repeat1,
+  [alias_sym_attachment_end_mark] = alias_sym_attachment_end_mark,
   [alias_sym_emphasis] = alias_sym_emphasis,
   [alias_sym_html_tag] = alias_sym_html_tag,
   [alias_sym_image_description] = alias_sym_image_description,
@@ -669,7 +672,7 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
   },
   [anon_sym_LBRACEattachment_COLON] = {
     .visible = true,
-    .named = false,
+    .named = true,
   },
   [aux_sym_attachment_token1] = {
     .visible = true,
@@ -1119,6 +1122,10 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = false,
     .named = false,
   },
+  [alias_sym_attachment_end_mark] = {
+    .visible = true,
+    .named = true,
+  },
   [alias_sym_emphasis] = {
     .visible = true,
     .named = true,
@@ -1152,6 +1159,9 @@ static const TSSymbol ts_alias_sequences[PRODUCTION_ID_COUNT][MAX_ALIAS_SEQUENCE
     [1] = alias_sym_link_text,
   },
   [5] = {
+    [2] = alias_sym_attachment_end_mark,
+  },
+  [6] = {
     [2] = alias_sym_image_description,
   },
 };
@@ -77822,8 +77832,8 @@ static const TSParseActionEntry ts_parse_actions[] = {
   [3049] = {.entry = {.count = 1, .reusable = true}}, SHIFT(364),
   [3051] = {.entry = {.count = 2, .reusable = true}}, REDUCE(sym__text_base, 1, 0, 0), SHIFT(71),
   [3054] = {.entry = {.count = 1, .reusable = true}}, SHIFT(300),
-  [3056] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym__image_description_non_empty, 4, 0, 5),
-  [3058] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym__image_description_non_empty, 4, 0, 5),
+  [3056] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym__image_description_non_empty, 4, 0, 6),
+  [3058] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym__image_description_non_empty, 4, 0, 6),
   [3060] = {.entry = {.count = 1, .reusable = true}}, SHIFT(528),
   [3062] = {.entry = {.count = 1, .reusable = true}}, SHIFT(418),
   [3064] = {.entry = {.count = 1, .reusable = true}}, SHIFT(533),
@@ -77910,8 +77920,8 @@ static const TSParseActionEntry ts_parse_actions[] = {
   [3241] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_latex_block, 3, 0, 0),
   [3243] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym__link_text_non_empty, 3, 0, 4),
   [3245] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym__link_text_non_empty, 3, 0, 4),
-  [3247] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_attachment, 3, 0, 0),
-  [3249] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_attachment, 3, 0, 0),
+  [3247] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_attachment, 3, 0, 5),
+  [3249] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_attachment, 3, 0, 5),
   [3251] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_collapsed_reference_link, 3, 10, 0),
   [3253] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_collapsed_reference_link, 3, 10, 0),
   [3255] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_inline_link, 3, 10, 0),

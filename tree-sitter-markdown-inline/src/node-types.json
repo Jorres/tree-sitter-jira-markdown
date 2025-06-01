@@ -4,11 +4,19 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
+          "type": "attachment_end_mark",
+          "named": true
+        },
+        {
           "type": "attachment_path",
+          "named": true
+        },
+        {
+          "type": "attachment_start_mark",
           "named": true
         }
       ]
@@ -887,7 +895,15 @@
     "named": false
   },
   {
+    "type": "attachment_end_mark",
+    "named": true
+  },
+  {
     "type": "attachment_path",
+    "named": true
+  },
+  {
+    "type": "attachment_start_mark",
     "named": true
   },
   {
@@ -924,10 +940,6 @@
   },
   {
     "type": "{",
-    "named": false
-  },
-  {
-    "type": "{attachment:",
     "named": false
   },
   {

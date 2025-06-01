@@ -248,9 +248,9 @@ module.exports = grammar(add_inline_rules({
         people_mention: $ => /@[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*[^@\s]*/,
 
         attachment: $ => seq(
-            '{attachment:',
+            alias('{attachment:', $.attachment_start_mark),
             alias(/[^}]+/, $.attachment_path),
-            '}'
+            alias('}', $.attachment_end_mark)
         ),
 
         // Raw html. As with html blocks we do not emit additional information as this is best done

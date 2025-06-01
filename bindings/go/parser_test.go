@@ -1,11 +1,9 @@
 package tree_sitter_markdown_test
 
 import (
-	"fmt"
 	"testing"
 
 	tree_sitter_markdown "github.com/tree-sitter-grammars/tree-sitter-markdown/bindings/go"
-	sitter "github.com/tree-sitter/go-tree-sitter"
 )
 
 func TestParseSimpleHeader(t *testing.T) {
@@ -17,67 +15,275 @@ func TestParseSimpleHeader(t *testing.T) {
 		t.Fatalf("Error parsing markdown: %v", err)
 	}
 
-	if tree == nil {
-		t.Fatal("Parse returned nil tree")
+	// Build expected tree structure
+	expected := &TreeNode{
+		Kind: "document",
+		Children: []*TreeNode{
+			{
+				Kind: "section",
+				Children: []*TreeNode{
+					{
+						Kind: "atx_heading",
+						Children: []*TreeNode{
+							{Kind: "atx_h1_marker", Text: "#"},
+							{Kind: "inline", Text: "header"},
+						},
+					},
+				},
+			},
+		},
 	}
 
-	root := tree.RootNode()
-	if root == nil {
-		t.Fatal("Root node is nil")
-	}
+	// Convert parsed tree to our comparison format
+	actual := convertToTreeNode(tree.RootNode(), content, parser)
 
-	// Verify we have a document root
-	if root.Kind() != "document" {
-		t.Errorf("Expected root node to be 'document', got '%s'", root.Kind())
-	}
-
-	// Check that we have children
-	if root.ChildCount() == 0 {
-		t.Fatal("Document should have children")
-	}
-
-	// Find the heading node - may be nested in sections
-	headingNode := findNodeByType(root, "atx_heading")
-	if headingNode == nil {
-		t.Fatal("Could not find atx_heading node")
-	}
-
-	// Verify heading content
-	headingText := string(content[headingNode.StartByte():headingNode.EndByte()])
-	if headingText != "# header\n" {
-		t.Errorf("Expected heading text '# header', got '%s'", headingText)
-	}
-
-	// Check for inline content within the heading
-	inlineNode := findNodeByType(headingNode, "inline")
-	if inlineNode != nil {
-		// Get the inline tree and check its content
-		inlineTree := parser.GetInlineTree(inlineNode, content)
-		if inlineTree != nil {
-			inlineText := string(content[inlineNode.StartByte():inlineNode.EndByte()])
-			expectedInlineText := "header"
-			if inlineText != expectedInlineText {
-				t.Errorf("Expected inline text '%s', got '%s'", expectedInlineText, inlineText)
-			}
-		}
+	// Compare trees
+	if !compareTreeNodes(expected, actual) {
+		t.Errorf("Tree structure doesn't match.\nExpected:\n%s\nActual:\n%s",
+			printTree(expected, 0), printTree(actual, 0))
 	}
 }
 
-// Helper function to recursively find a node by type
-func findNodeByType(node *sitter.Node, nodeType string) *sitter.Node {
-	if node.Kind() == nodeType {
-		return node
+func TestParseSimplePeopleMention(t *testing.T) {
+	parser := tree_sitter_markdown.NewAdfMarkdownParser()
+	content := []byte("@jorres@nebius.com")
+
+	tree, err := parser.Parse(content)
+	if err != nil {
+		t.Fatalf("Error parsing markdown: %v", err)
 	}
 
-	childCount := node.ChildCount()
-	for i := uint(0); i < childCount; i++ {
-		child := node.Child(i)
-		if child != nil {
-			if found := findNodeByType(child, nodeType); found != nil {
-				return found
-			}
-		}
+	// Build expected tree structure
+	expected := &TreeNode{
+		Kind: "document",
+		Children: []*TreeNode{
+			{
+				Kind: "section",
+				Children: []*TreeNode{
+					{
+						Kind: "paragraph",
+						Children: []*TreeNode{
+							{
+								Kind: "inline",
+								Text: "@jorres@nebius.com",
+								Children: []*TreeNode{
+									{
+										Kind: "people_mention",
+										Text: "@jorres@nebius.com",
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
 	}
-	return nil
+
+	// Convert parsed tree to our comparison format
+	actual := convertToTreeNode(tree.RootNode(), content, parser)
+
+	// Compare trees
+	if !compareTreeNodes(expected, actual) {
+		t.Errorf("Tree structure doesn't match.\nExpected:\n%s\nActual:\n%s",
+			printTree(expected, 0), printTree(actual, 0))
+	}
 }
 
+func TestParseSimpleAttachment(t *testing.T) {
+	parser := tree_sitter_markdown.NewAdfMarkdownParser()
+	content := []byte("{attachment:file.txt}")
+
+	tree, err := parser.Parse(content)
+	if err != nil {
+		t.Fatalf("Error parsing markdown: %v", err)
+	}
+
+	// Build expected tree structure
+	expected := &TreeNode{
+		Kind: "document",
+		Children: []*TreeNode{
+			{
+				Kind: "section",
+				Children: []*TreeNode{
+					{
+						Kind: "paragraph",
+						Children: []*TreeNode{
+							{
+								Kind: "inline",
+								Text: "{attachment:file.txt}",
+								Children: []*TreeNode{
+									{
+										Kind: "attachment",
+										Children: []*TreeNode{
+											{
+												Kind: "attachment_start_mark",
+												Text: "{attachment:",
+											},
+											{
+												Kind: "attachment_path",
+												Text: "file.txt",
+											},
+											{
+												Kind: "attachment_end_mark",
+												Text: "}",
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	// Convert parsed tree to our comparison format
+	actual := convertToTreeNode(tree.RootNode(), content, parser)
+
+	// Compare trees
+	if !compareTreeNodes(expected, actual) {
+		t.Errorf("Tree structure doesn't match.\nExpected:\n%s\nActual:\n%s",
+			printTree(expected, 0), printTree(actual, 0))
+	}
+}
+
+func TestParseComplexDocument(t *testing.T) {
+	parser := tree_sitter_markdown.NewAdfMarkdownParser()
+	content := []byte(`# Main Header
+
+1. Item with ` + "`" + `code` + "`" + `span
+2. Item with @user@example.com mention
+3. Item with {attachment:document.pdf} attachment
+
+` + "```" + `
+code block content
+` + "```\n")
+
+	tree, err := parser.Parse(content)
+	if err != nil {
+		t.Fatalf("Error parsing markdown: %v", err)
+	}
+
+	// Build expected tree structure
+	expected := &TreeNode{
+		Kind: "document",
+		Children: []*TreeNode{
+			{
+				Kind: "section",
+				Children: []*TreeNode{
+					// Header
+					{
+						Kind: "atx_heading",
+						Children: []*TreeNode{
+							{Kind: "atx_h1_marker", Text: "#"},
+							{Kind: "inline", Text: "Main Header", Children: []*TreeNode{}},
+						},
+					},
+					// Numbered list
+					{
+						Kind: "list",
+						Children: []*TreeNode{
+							// Item 1 with code span
+							{
+								Kind: "list_item",
+								Children: []*TreeNode{
+									{Kind: "list_marker_dot", Text: "1."},
+									{
+										Kind: "paragraph",
+										Children: []*TreeNode{
+											{
+												Kind: "inline",
+												Text: "Item with `code`span",
+												Children: []*TreeNode{
+													{
+														Kind: "code_span",
+														Children: []*TreeNode{
+															{Kind: "code_span_delimiter", Text: "`"},
+															{Kind: "code_span_delimiter", Text: "`"},
+														},
+													},
+												},
+											},
+										},
+									},
+								},
+							},
+							// Item 2 with people mention
+							{
+								Kind: "list_item",
+								Children: []*TreeNode{
+									{Kind: "list_marker_dot", Text: "2."},
+									{
+										Kind: "paragraph",
+										Children: []*TreeNode{
+											{
+												Kind: "inline",
+												Text: "Item with @user@example.com mention",
+												Children: []*TreeNode{
+													{Kind: "people_mention", Text: "@user@example.com"},
+												},
+											},
+										},
+									},
+								},
+							},
+							// Item 3 with attachment
+							{
+								Kind: "list_item",
+								Children: []*TreeNode{
+									{Kind: "list_marker_dot", Text: "3."},
+									{
+										Kind: "paragraph",
+										Children: []*TreeNode{
+											{
+												Kind: "inline",
+												Text: "Item with {attachment:document.pdf} attachment",
+												Children: []*TreeNode{
+													{
+														Kind: "attachment",
+														Children: []*TreeNode{
+															{Kind: "attachment_start_mark", Text: "{attachment:"},
+															{Kind: "attachment_path", Text: "document.pdf"},
+															{Kind: "attachment_end_mark", Text: "}"},
+														},
+													},
+												},
+											},
+											{Kind: "block_continuation"},
+										},
+									},
+								},
+							},
+						},
+					},
+					// Code block
+					{
+						Kind: "fenced_code_block",
+						Children: []*TreeNode{
+							{Kind: "fenced_code_block_delimiter", Text: "```"},
+							{Kind: "block_continuation"},
+							{
+								Kind: "code_fence_content",
+								Children: []*TreeNode{
+									{Kind: "block_continuation"},
+								},
+							},
+							{Kind: "fenced_code_block_delimiter", Text: "```"},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	// Convert parsed tree to our comparison format
+	actual := convertToTreeNode(tree.RootNode(), content, parser)
+
+	// Compare trees
+	if !compareTreeNodes(expected, actual) {
+		t.Errorf("Tree structure doesn't match.\nExpected:\n%s\nActual:\n%s",
+			printTree(expected, 0), printTree(actual, 0))
+	}
+}

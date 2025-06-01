@@ -2411,8 +2411,13 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "{attachment:"
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "{attachment:"
+          },
+          "named": true,
+          "value": "attachment_start_mark"
         },
         {
           "type": "ALIAS",
@@ -2424,8 +2429,13 @@
           "value": "attachment_path"
         },
         {
-          "type": "STRING",
-          "value": "}"
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "}"
+          },
+          "named": true,
+          "value": "attachment_end_mark"
         }
       ]
     },

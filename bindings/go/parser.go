@@ -46,7 +46,6 @@ func NewAdfMarkdownParser() *AdfMarkdownParser {
 // Parse parses markdown content and returns a unified tree with inline content processed
 // This hides the complexity of dual-grammar parsing from the application
 func (p *AdfMarkdownParser) Parse(content []byte) (*sitter.Tree, error) {
-	fmt.Println(string(content))
 	// Parse the document structure with block grammar
 	blockTree := p.blockParser.Parse(content, nil)
 	if blockTree == nil {
