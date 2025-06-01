@@ -2403,6 +2403,32 @@
       "type": "PATTERN",
       "value": "<[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*>"
     },
+    "people_mention": {
+      "type": "PATTERN",
+      "value": "@[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*[^@\\s]*"
+    },
+    "attachment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{attachment:"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[^}]+"
+          },
+          "named": true,
+          "value": "attachment_path"
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
     "_html_tag": {
       "type": "CHOICE",
       "members": [
@@ -4554,6 +4580,14 @@
             {
               "type": "SYMBOL",
               "name": "email_autolink"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "people_mention"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "attachment"
             },
             {
               "type": "SYMBOL",

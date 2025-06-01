@@ -245,6 +245,14 @@ module.exports = grammar(add_inline_rules({
         email_autolink: $ =>
             /<[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*>/,
 
+        people_mention: $ => /@[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*[^@\s]*/,
+
+        attachment: $ => seq(
+            '{attachment:',
+            alias(/[^}]+/, $.attachment_path),
+            '}'
+        ),
+
         // Raw html. As with html blocks we do not emit additional information as this is best done
         // by a proper html tree-sitter grammar.
         //
@@ -353,6 +361,8 @@ module.exports = grammar(add_inline_rules({
             $.hard_line_break,
             $.uri_autolink,
             $.email_autolink,
+            $.people_mention,
+            $.attachment,
             $.entity_reference,
             $.numeric_character_reference,
             (common.EXTENSION_LATEX ? $.latex_block : choice()),
