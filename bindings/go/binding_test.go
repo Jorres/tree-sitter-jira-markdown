@@ -20,3 +20,62 @@ func TestCanLoadInlineGrammar(t *testing.T) {
 		t.Errorf("Error loading Markdown inline grammar")
 	}
 }
+
+func TestParseUnderlineInBold(t *testing.T) {
+	parser := tree_sitter_markdown.NewAdfMarkdownParser()
+	content := []byte("**<u>text</u>**\n")
+
+	tree, err := parser.Parse(content)
+	if err != nil {
+		t.Fatalf("Error parsing markdown: %v", err)
+	}
+
+	// Build expected tree structure
+	expected := &TreeNode{
+		Kind: "document",
+		Children: []*TreeNode{
+			{
+				Kind: "section",
+				Children: []*TreeNode{
+					{
+						Kind: "paragraph",
+						Children: []*TreeNode{
+							{
+								Kind: "inline",
+								Text: "**<u>text</u>**",
+								Children: []*TreeNode{
+									{
+										Kind: "strong_emphasis",
+										Children: []*TreeNode{
+											{Kind: "emphasis_delimiter", Text: "*"},
+											{Kind: "emphasis_delimiter", Text: "*"},
+											{
+												Kind: "underline",
+												Children: []*TreeNode{
+													{Kind: "underline_open", Text: "<u>"},
+													{Kind: "underline_content", Text: "text"},
+													{Kind: "underline_close", Text: "</u>"},
+												},
+											},
+											{Kind: "emphasis_delimiter", Text: "*"},
+											{Kind: "emphasis_delimiter", Text: "*"},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	// Convert parsed tree to our comparison format
+	actual := convertToTreeNode(tree.RootNode(), content, parser)
+
+	// Compare trees
+	if !compareTreeNodes(expected, actual) {
+		t.Errorf("Tree structure doesn't match.\nExpected:\n%s\nActual:\n%s",
+			printTree(expected, 0), printTree(actual, 0))
+	}
+}

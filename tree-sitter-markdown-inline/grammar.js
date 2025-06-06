@@ -51,6 +51,7 @@ module.exports = grammar(add_inline_rules({
         $._strikethrough_open,
         $._strikethrough_close,
 
+
         // Opening and closing delimiters for latex. These are sequences of one or more dollar signs.
         // An opening token does not mean the text after has to be latex if there is no closing token
         $._latex_span_start,
@@ -247,6 +248,8 @@ module.exports = grammar(add_inline_rules({
 
         people_mention: $ => /@[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*[^@\s]*/,
 
+        underline: $ => seq(alias('<u>', $.underline_open), alias($._inline, $.underline_content), alias('</u>', $.underline_close)),
+
         // Raw html. As with html blocks we do not emit additional information as this is best done
         // by a proper html tree-sitter grammar.
         //
@@ -356,6 +359,7 @@ module.exports = grammar(add_inline_rules({
             $.uri_autolink,
             $.email_autolink,
             $.people_mention,
+            $.underline,
             $.entity_reference,
             $.numeric_character_reference,
             (common.EXTENSION_LATEX ? $.latex_block : choice()),

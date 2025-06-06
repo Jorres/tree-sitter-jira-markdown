@@ -47,6 +47,7 @@ func dumpTree(parser *tree_sitter_markdown.AdfMarkdownParser, node *sitter.Node,
 	if node.Kind() == "inline" {
 		if inlineTree, exists := parser.InlineToTree[node.Id()]; exists {
 			dumpTree(parser, inlineTree.RootNode(), []byte(nodeText), depth+1)
+			return
 		}
 	}
 

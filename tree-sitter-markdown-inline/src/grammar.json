@@ -2407,6 +2407,38 @@
       "type": "PATTERN",
       "value": "@[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*[^@\\s]*"
     },
+    "underline": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "<u>"
+          },
+          "named": true,
+          "value": "underline_open"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_inline"
+          },
+          "named": true,
+          "value": "underline_content"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "</u>"
+          },
+          "named": true,
+          "value": "underline_close"
+        }
+      ]
+    },
     "_html_tag": {
       "type": "CHOICE",
       "members": [
@@ -4562,6 +4594,10 @@
             {
               "type": "SYMBOL",
               "name": "people_mention"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "underline"
             },
             {
               "type": "SYMBOL",
