@@ -1566,6 +1566,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "panel"
+        },
+        {
+          "type": "SYMBOL",
           "name": "pipe_table"
         }
       ]
@@ -3640,6 +3644,120 @@
           },
           "named": true,
           "value": "attachment_end_mark"
+        }
+      ]
+    },
+    "panel": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "panel_start"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_newline"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_eof"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_block"
+          }
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "{/panel}"
+          },
+          "named": true,
+          "value": "panel_end_mark"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_newline"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_eof"
+            }
+          ]
+        }
+      ]
+    },
+    "panel_start": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "{panel}"
+          },
+          "named": true,
+          "value": "panel_start_mark"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "STRING",
+                "value": "{panel:"
+              },
+              "named": true,
+              "value": "panel_start_mark"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "panel_type"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "STRING",
+                "value": "}"
+              },
+              "named": true,
+              "value": "panel_end_bracket"
+            }
+          ]
+        }
+      ]
+    },
+    "panel_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[^=}]+"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[^}]+"
+          },
+          "named": true,
+          "value": "type"
         }
       ]
     },

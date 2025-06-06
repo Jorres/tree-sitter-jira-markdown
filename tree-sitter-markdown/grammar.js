@@ -46,6 +46,7 @@ module.exports = grammar({
             $.html_block,
             $.link_reference_definition,
             $.attachment,
+            $.panel,
             common.EXTENSION_PIPE_TABLE ? $.pipe_table : choice(),
         ),
         section: $ => choice($._section1, $._section2, $._section3, $._section4, $._section5, $._section6),
@@ -291,6 +292,30 @@ module.exports = grammar({
             alias('{attachment:', $.attachment_start_mark),
             alias(/[^}]+/, $.attachment_path),
             alias('}', $.attachment_end_mark)
+        ),
+
+        // Panel block for handling {panel} ... {/panel} syntax
+        panel: $ => seq(
+            $.panel_start,
+            choice($._newline, $._eof),
+            repeat($._block),
+            alias('{/panel}', $.panel_end_mark),
+            choice($._newline, $._eof)
+        ),
+
+        panel_start: $ => choice(
+            alias('{panel}', $.panel_start_mark),
+            seq(
+                alias('{panel:', $.panel_start_mark),
+                $.panel_type,
+                alias('}', $.panel_end_bracket)
+            )
+        ),
+
+        panel_type: $ => seq(
+            /[^=}]+/,
+            '=',
+            alias(/[^}]+/, $.type)
         ),
 
 

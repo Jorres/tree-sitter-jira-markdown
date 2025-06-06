@@ -122,6 +122,10 @@
           "named": true
         },
         {
+          "type": "panel",
+          "named": true
+        },
+        {
           "type": "paragraph",
           "named": true
         },
@@ -485,6 +489,10 @@
           "named": true
         },
         {
+          "type": "panel",
+          "named": true
+        },
+        {
           "type": "paragraph",
           "named": true
         },
@@ -539,6 +547,119 @@
     "type": "list_marker_star",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "panel",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attachment",
+          "named": true
+        },
+        {
+          "type": "block_continuation",
+          "named": true
+        },
+        {
+          "type": "block_quote",
+          "named": true
+        },
+        {
+          "type": "fenced_code_block",
+          "named": true
+        },
+        {
+          "type": "html_block",
+          "named": true
+        },
+        {
+          "type": "indented_code_block",
+          "named": true
+        },
+        {
+          "type": "link_reference_definition",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "panel",
+          "named": true
+        },
+        {
+          "type": "panel_end_mark",
+          "named": true
+        },
+        {
+          "type": "panel_start",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "pipe_table",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        },
+        {
+          "type": "setext_heading",
+          "named": true
+        },
+        {
+          "type": "thematic_break",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "panel_start",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "panel_end_bracket",
+          "named": true
+        },
+        {
+          "type": "panel_start_mark",
+          "named": true
+        },
+        {
+          "type": "panel_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "panel_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "paragraph",
@@ -697,6 +818,10 @@
         },
         {
           "type": "list",
+          "named": true
+        },
+        {
+          "type": "panel",
           "named": true
         },
         {
@@ -966,6 +1091,18 @@
     "named": true
   },
   {
+    "type": "panel_end_bracket",
+    "named": true
+  },
+  {
+    "type": "panel_end_mark",
+    "named": true
+  },
+  {
+    "type": "panel_start_mark",
+    "named": true
+  },
+  {
     "type": "pipe_table_align_left",
     "named": true
   },
@@ -983,6 +1120,10 @@
   },
   {
     "type": "setext_h2_underline",
+    "named": true
+  },
+  {
+    "type": "type",
     "named": true
   },
   {
