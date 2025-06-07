@@ -22,7 +22,7 @@ license.text = "MIT"
 readme = "README.md"
 
 [project.urls]
-Homepage = "https://github.com/tree-sitter-grammars/tree-sitter-markdown"
+Homepage = "https://github.com/jorres/tree-sitter-jira-markdown"
 
 [project.optional-dependencies]
 core = ["tree-sitter~=0.23"]

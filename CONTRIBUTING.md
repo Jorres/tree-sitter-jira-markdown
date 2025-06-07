@@ -40,10 +40,11 @@ at compile time. The logic for this can be found in the `common/grammar.js`
 file.
 
 Tests are located in the `test/corpus` subfolder:
-* `spec.txt` is taken from the examples in the [GFM spec][gfm].
-* `failing.txt` are those examples from the spec that do not pass yet.
-* `issues.txt` are test cases covering solved issues.
-* `extension_<>.txt` are covering specific extensions. Some of these are also
+
+- `spec.txt` is taken from the examples in the [GFM spec][gfm].
+- `failing.txt` are those examples from the spec that do not pass yet.
+- `issues.txt` are test cases covering solved issues.
+- `extension_<>.txt` are covering specific extensions. Some of these are also
   taken from the GFM spec.
 
 ## Pull Requests
@@ -52,14 +53,14 @@ I will happily accept any pull requests.
 
 Before submitting any code please check the following:
 
-* You ran `tree-sitter generate` in the `tree-sitter-markdown` or
+- You ran `tree-sitter generate` in the `tree-sitter-markdown` or
   `tree-sitter-markdown-inline` directories respectively after modifying any
   `grammar.js` file.
-* When running `tree-sitter test` only the cases defined in `failing.txt` or
+- When running `tree-sitter test` only the cases defined in `failing.txt` or
   `extension_<>.txt` for not activated extensions fail for **both** grammars.
-* If you implemented new behavior please add tests. (In most cases these belong
+- If you implemented new behavior please add tests. (In most cases these belong
   in a `extension_<>.txt`.)
-* You deleted any auto-generated bindings and files for debugging purposes
+- You deleted any auto-generated bindings and files for debugging purposes
   like `log.html`
 
 ## Tests
@@ -72,8 +73,8 @@ ALL_EXTENSIONS=1 node scripts/build.js
 node scripts/test.js
 ```
 
-[issue]: https://github.com/tree-sitter-grammars/tree-sitter-markdown/issues/new
-[pull request]: https://github.com/tree-sitter-grammars/tree-sitter-markdown/compare
+[issue]: https://github.com/jorres/tree-sitter-jira-markdown/issues/new
+[pull request]: https://github.com/jorres/tree-sitter-jira-markdown/compare
 [gfm]: https://github.github.com/gfm/
 [commonmark]: https://spec.commonmark.org/
 [tree-sitter spec]: https://tree-sitter.github.io/tree-sitter/

@@ -9,7 +9,7 @@
     ],
     "description": "Markdown grammar for tree-sitter",
     "links": {
-      "repository": "https://github.com/tree-sitter-grammars/tree-sitter-markdown"
+      "repository": "https://github.com/jorres/tree-sitter-jira-markdown"
     }
   },
   "grammars": [

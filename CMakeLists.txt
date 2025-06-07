@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.13)
 project(tree-sitter-markdown
         VERSION "0.5.0"
         DESCRIPTION "Markdown grammar for tree-sitter"
-        HOMEPAGE_URL "https://github.com/tree-sitter-grammars/tree-sitter-markdown"
+        HOMEPAGE_URL "https://github.com/jorres/tree-sitter-jira-markdown"
         LANGUAGES C)
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)

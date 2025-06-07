@@ -1,4 +1,4 @@
-module github.com/tree-sitter-grammars/tree-sitter-markdown
+module github.com/jorres/tree-sitter-jira-markdown
 
 go 1.23
 

@@ -2,7 +2,7 @@ ifeq ($(OS),Windows_NT)
 $(error Windows is not supported)
 endif
 
-HOMEPAGE_URL := https://github.com/tree-sitter-grammars/tree-sitter-markdown
+HOMEPAGE_URL := https://github.com/jorres/tree-sitter-jira-markdown
 VERSION := 0.5.0
 
 # repository

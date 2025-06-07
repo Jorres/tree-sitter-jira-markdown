@@ -3,7 +3,7 @@ package tree_sitter_markdown_test
 import (
 	"testing"
 
-	tree_sitter_markdown "github.com/tree-sitter-grammars/tree-sitter-markdown/bindings/go"
+	tree_sitter_markdown "github.com/jorres/tree-sitter-jira-markdown/bindings/go"
 )
 
 func TestParseSimpleHeader(t *testing.T) {
@@ -139,8 +139,8 @@ func TestParseSimpleAttachment(t *testing.T) {
 }
 
 func TestParsePanelWithType(t *testing.T) {
-    parser := tree_sitter_markdown.NewAdfMarkdownParser()
-    content := []byte(`{panel:type=info}
+	parser := tree_sitter_markdown.NewAdfMarkdownParser()
+	content := []byte(`{panel:type=info}
 # Header
 
 possible **text-inside** with ` + "`" + `inline stuff` + "`" + `
@@ -150,105 +150,105 @@ and code blocks
 ` + "```" + `
 {/panel}`)
 
-    tree, err := parser.Parse(content)
-    if err != nil {
-        t.Fatalf("Error parsing markdown: %v", err)
-    }
+	tree, err := parser.Parse(content)
+	if err != nil {
+		t.Fatalf("Error parsing markdown: %v", err)
+	}
 
-    // Build expected tree structure
-    expected := &TreeNode{
-        Kind: "document",
-        Children: []*TreeNode{
-            {
-                Kind: "section",
-                Children: []*TreeNode{
-                    {
-                        Kind: "panel",
-                        Children: []*TreeNode{
-                            {
-                                Kind: "panel_start",
-                                Children: []*TreeNode{
-                                    {Kind: "panel_start_mark", Text: "{panel:"},
-                                    {
-                                        Kind: "panel_type",
-                                        Children: []*TreeNode{
-                                            {Kind: "=", Text: "="},
-                                            {Kind: "type", Text: "info"},
-                                        },
-                                    },
-                                    {Kind: "panel_end_bracket", Text: "}"},
-                                },
-                            },
-                            {
-                                Kind: "section",
-                                Children: []*TreeNode{
-                                    {
-                                        Kind: "atx_heading",
-                                        Children: []*TreeNode{
-                                            {Kind: "atx_h1_marker", Text: "#"},
-                                            {Kind: "inline", Text: "Header"},
-                                        },
-                                    },
-                                    {
-                                        Kind: "paragraph",
-                                        Children: []*TreeNode{
-                                            {
-                                                Kind: "inline",
-                                                Text: "possible **text-inside** with `inline stuff`",
-                                                Children: []*TreeNode{
-                                                    {
-                                                        Kind: "strong_emphasis",
-                                                        Children: []*TreeNode{
-                                                            {Kind: "emphasis_delimiter", Text: "*"},
-                                                            {Kind: "emphasis_delimiter", Text: "*"},
-                                                            {Kind: "-", Text: "-"},
-                                                            {Kind: "emphasis_delimiter", Text: "*"},
-                                                            {Kind: "emphasis_delimiter", Text: "*"},
-                                                        },
-                                                    },
-                                                    {
-                                                        Kind: "code_span",
-                                                        Children: []*TreeNode{
-                                                            {Kind: "code_span_delimiter", Text: "`"},
-                                                            {Kind: "code_span_delimiter", Text: "`"},
-                                                        },
-                                                    },
-                                                },
-                                            },
-                                        },
-                                    },
-                                    {
-                                        Kind: "fenced_code_block",
-                                        Children: []*TreeNode{
-                                            {Kind: "fenced_code_block_delimiter", Text: "```"},
-                                            {Kind: "block_continuation"},
-                                            {
-                                                Kind: "code_fence_content",
-                                                Children: []*TreeNode{
-                                                    {Kind: "block_continuation"},
-                                                },
-                                            },
-                                            {Kind: "fenced_code_block_delimiter", Text: "```"},
-                                        },
-                                    },
-                                },
-                            },
-                            {Kind: "panel_end_mark", Text: "{/panel}"},
-                        },
-                    },
-                },
-            },
-        },
-    }
+	// Build expected tree structure
+	expected := &TreeNode{
+		Kind: "document",
+		Children: []*TreeNode{
+			{
+				Kind: "section",
+				Children: []*TreeNode{
+					{
+						Kind: "panel",
+						Children: []*TreeNode{
+							{
+								Kind: "panel_start",
+								Children: []*TreeNode{
+									{Kind: "panel_start_mark", Text: "{panel:"},
+									{
+										Kind: "panel_type",
+										Children: []*TreeNode{
+											{Kind: "=", Text: "="},
+											{Kind: "type", Text: "info"},
+										},
+									},
+									{Kind: "panel_end_bracket", Text: "}"},
+								},
+							},
+							{
+								Kind: "section",
+								Children: []*TreeNode{
+									{
+										Kind: "atx_heading",
+										Children: []*TreeNode{
+											{Kind: "atx_h1_marker", Text: "#"},
+											{Kind: "inline", Text: "Header"},
+										},
+									},
+									{
+										Kind: "paragraph",
+										Children: []*TreeNode{
+											{
+												Kind: "inline",
+												Text: "possible **text-inside** with `inline stuff`",
+												Children: []*TreeNode{
+													{
+														Kind: "strong_emphasis",
+														Children: []*TreeNode{
+															{Kind: "emphasis_delimiter", Text: "*"},
+															{Kind: "emphasis_delimiter", Text: "*"},
+															{Kind: "-", Text: "-"},
+															{Kind: "emphasis_delimiter", Text: "*"},
+															{Kind: "emphasis_delimiter", Text: "*"},
+														},
+													},
+													{
+														Kind: "code_span",
+														Children: []*TreeNode{
+															{Kind: "code_span_delimiter", Text: "`"},
+															{Kind: "code_span_delimiter", Text: "`"},
+														},
+													},
+												},
+											},
+										},
+									},
+									{
+										Kind: "fenced_code_block",
+										Children: []*TreeNode{
+											{Kind: "fenced_code_block_delimiter", Text: "```"},
+											{Kind: "block_continuation"},
+											{
+												Kind: "code_fence_content",
+												Children: []*TreeNode{
+													{Kind: "block_continuation"},
+												},
+											},
+											{Kind: "fenced_code_block_delimiter", Text: "```"},
+										},
+									},
+								},
+							},
+							{Kind: "panel_end_mark", Text: "{/panel}"},
+						},
+					},
+				},
+			},
+		},
+	}
 
-    // Convert parsed tree to our comparison format
-    actual := convertToTreeNode(tree.RootNode(), content, parser)
+	// Convert parsed tree to our comparison format
+	actual := convertToTreeNode(tree.RootNode(), content, parser)
 
-    // Compare trees
-    if !compareTreeNodes(expected, actual) {
-        t.Errorf("Tree structure doesn't match.\nExpected:\n%s\nActual:\n%s",
-            printTree(expected, 0), printTree(actual, 0))
-    }
+	// Compare trees
+	if !compareTreeNodes(expected, actual) {
+		t.Errorf("Tree structure doesn't match.\nExpected:\n%s\nActual:\n%s",
+			printTree(expected, 0), printTree(actual, 0))
+	}
 }
 
 func TestParseComplexDocument(t *testing.T) {

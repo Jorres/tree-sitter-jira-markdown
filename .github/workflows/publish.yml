@@ -13,7 +13,7 @@ jobs:
   npm:
     uses: tree-sitter/workflows/.github/workflows/package-npm.yml@main
     with:
-      package-name: "@tree-sitter-grammars/tree-sitter-markdown"
+      package-name: "@jorres/tree-sitter-jira-markdown"
     secrets:
       NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
   crates:

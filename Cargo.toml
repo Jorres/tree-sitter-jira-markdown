@@ -7,7 +7,7 @@ license = "MIT"
 readme = "README.md"
 keywords = ["incremental", "parsing", "tree-sitter", "markdown"]
 categories = ["parsing", "text-editors"]
-repository = "https://github.com/tree-sitter-grammars/tree-sitter-markdown"
+repository = "https://github.com/jorres/tree-sitter-jira-markdown"
 edition = "2021"
 autoexamples = false
 
